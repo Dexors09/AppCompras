@@ -10,7 +10,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Lista de Compras',
+        name: 'App de Compras',
         short_name: 'Compras',
         description: 'App para registrar tus compras',
         theme_color: '#0d6efd',

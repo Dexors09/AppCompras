@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useSwipeable } from "react-swipeable";
 import { FaTrash } from "react-icons/fa";
 import "./App.css";
 
@@ -28,6 +27,7 @@ function App() {
 
   const agregarItem = () => {
     if (!nombre || !cantidad || !precio) return;
+
     const nuevo = {
       nombre,
       cantidad: parseInt(cantidad),
@@ -35,7 +35,9 @@ function App() {
       subtotal: calcularSubtotal(),
       id: Date.now(),
     };
-    setLista([...lista, nuevo]);
+
+    setLista((prevLista) => [...prevLista, nuevo]);
+
     setNombre("");
     setCantidad("");
     setPrecio("");
@@ -51,7 +53,6 @@ function App() {
     <div className="container">
       <h1>🛒 Registro de Compras</h1>
 
-      {/* Presupuesto y total */}
       <div className="presupuesto">
         <input
           type="number"
@@ -65,7 +66,6 @@ function App() {
         </span>
       </div>
 
-      {/* Nuevo artículo */}
       <div className="nuevo">
         <input
           type="text"
@@ -90,30 +90,44 @@ function App() {
         <button onClick={agregarItem}>Agregar a la lista</button>
       </div>
 
-      {/* Lista de artículos con swipe */}
-      <ul id="lista">
-        {lista.map((item) => {
-          const handlers = useSwipeable({
-            onSwipedLeft: () => eliminarItem(item.id),
-            delta: 50, // distancia mínima del swipe
-          });
+<ul id="lista">
+  {lista.map((item) => (
+    <li
+      key={item.id}
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "8px 10px",
+      }}
+    >
+      {/* Información principal */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+        <span style={{ fontWeight: "bold" }}>{item.nombre}</span>
+        <span style={{ fontSize: "0.9rem", color: "#ccc" }}>
+          Cantidad: {item.cantidad} - Precio: ${item.precio.toFixed(2)}
+        </span>
+      </div>
 
-          return (
-            <li key={item.id} {...handlers}>
-              <span>
-                {item.nombre} - Cantidad: {item.cantidad} - Precio: $
-                {item.precio.toFixed(2)}
-              </span>
-              <button
-                onClick={() => eliminarItem(item.id)}
-                aria-label="Eliminar"
-              >
-                <FaTrash style={{ color: "red" }} />
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      {/* Subtotal + trash */}
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <span style={{ fontWeight: "bold", fontSize: "0.95rem" }}>
+          ${item.subtotal.toFixed(2)}
+        </span>
+        <FaTrash
+          style={{
+            color: "red",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+          onClick={() => eliminarItem(item.id)}
+          title="Eliminar"
+        />
+      </div>
+    </li>
+  ))}
+</ul>
+
 
       <button className="danger" onClick={limpiarLista}>
         Limpiar lista

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import "./App.css";
 
@@ -8,6 +8,20 @@ function App() {
   const [cantidad, setCantidad] = useState("");
   const [precio, setPrecio] = useState("");
   const [lista, setLista] = useState([]);
+
+  // 🔹 Cargar datos guardados al iniciar
+  useEffect(() => {
+    const dataGuardada = localStorage.getItem("listaCompras");
+    const presupuestoGuardado = localStorage.getItem("presupuesto");
+    if (dataGuardada) setLista(JSON.parse(dataGuardada));
+    if (presupuestoGuardado) setPresupuesto(presupuestoGuardado);
+  }, []);
+
+  // 🔹 Guardar cada cambio en lista o presupuesto
+  useEffect(() => {
+    localStorage.setItem("listaCompras", JSON.stringify(lista));
+    localStorage.setItem("presupuesto", presupuesto);
+  }, [lista, presupuesto]);
 
   const total = lista.reduce((acc, item) => acc + item.subtotal, 0);
 
@@ -37,7 +51,6 @@ function App() {
     };
 
     setLista((prevLista) => [...prevLista, nuevo]);
-
     setNombre("");
     setCantidad("");
     setPrecio("");
@@ -47,7 +60,12 @@ function App() {
     setLista(lista.filter((item) => item.id !== id));
   };
 
-  const limpiarLista = () => setLista([]);
+  const limpiarLista = () => {
+    if (confirm("¿Seguro que deseas limpiar toda la lista?")) {
+      setLista([]);
+      localStorage.removeItem("listaCompras");
+    }
+  };
 
   return (
     <div className="container">
@@ -90,44 +108,44 @@ function App() {
         <button onClick={agregarItem}>Agregar a la lista</button>
       </div>
 
-<ul id="lista">
-  {lista.map((item) => (
-    <li
-      key={item.id}
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "8px 10px",
-      }}
-    >
-      {/* Información principal */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-        <span style={{ fontWeight: "bold" }}>{item.nombre}</span>
-        <span style={{ fontSize: "0.9rem", color: "#ccc" }}>
-          Cantidad: {item.cantidad} - Precio: ${item.precio.toFixed(2)}
-        </span>
-      </div>
+      <ul id="lista">
+        {lista.map((item) => (
+          <li
+            key={item.id}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "6px 8px",
+              borderBottom: "1px solid #333",
+            }}
+          >
+            {/* Información principal */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+              <span style={{ fontWeight: "bold" }}>{item.nombre}</span>
+              <span style={{ fontSize: "0.85rem", color: "#bbb" }}>
+                Cantidad: {item.cantidad} - Precio: ${item.precio.toFixed(2)}
+              </span>
+            </div>
 
-      {/* Subtotal + trash */}
-      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        <span style={{ fontWeight: "bold", fontSize: "0.95rem" }}>
-          ${item.subtotal.toFixed(2)}
-        </span>
-        <FaTrash
-          style={{
-            color: "red",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-          onClick={() => eliminarItem(item.id)}
-          title="Eliminar"
-        />
-      </div>
-    </li>
-  ))}
-</ul>
-
+            {/* Subtotal + trash */}
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <span style={{ fontWeight: "bold", fontSize: "0.9rem" }}>
+                ${item.subtotal.toFixed(2)}
+              </span>
+              <FaTrash
+                style={{
+                  color: "red",
+                  cursor: "pointer",
+                  fontSize: "1rem",
+                }}
+                onClick={() => eliminarItem(item.id)}
+                title="Eliminar"
+              />
+            </div>
+          </li>
+        ))}
+      </ul>
 
       <button className="danger" onClick={limpiarLista}>
         Limpiar lista

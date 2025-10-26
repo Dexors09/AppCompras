@@ -38,7 +38,7 @@ input,
 button {
   width: 100%;
   margin: 5px 0;
-  padding: 14px;
+  padding: 17px;
   border-radius: var(--radius);
   border: none;
   font-size: 1.5rem;
@@ -49,12 +49,12 @@ button {
   color: white;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 button.danger {
   background: var(--color-danger);
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 .presupuesto {
@@ -133,8 +133,8 @@ button.danger {
 
   input,
   button {
-    font-size: 1rem;
-    padding: 12px;
+    font-size: 1.5rem;
+    padding: 15px;
   }
 
   #total {

@@ -14,8 +14,11 @@ body {
   font-family: system-ui, Arial, sans-serif;
   background: var(--color-bg);
   color: #fff;
-  margin: 0;
   padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .container {
@@ -24,9 +27,11 @@ body {
   padding: 1rem;
 }
 
-h1 {
+h2 {
   text-align: center;
   margin-bottom: 1.5rem;
+  margin-top: -5rem;
+  font-size: 2rem;
 }
 
 input,
@@ -36,7 +41,7 @@ button {
   padding: 14px;
   border-radius: var(--radius);
   border: none;
-  font-size: 1rem;
+  font-size: 1.5rem;
 }
 
 button {
@@ -44,10 +49,12 @@ button {
   color: white;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 50px;
 }
 
 button.danger {
   background: var(--color-danger);
+  margin-top: 30px;
 }
 
 .presupuesto {
@@ -61,7 +68,7 @@ button.danger {
 
 .presupuesto input {
   flex: 1;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   text-align: center;
   background: transparent;
   color: white;
@@ -78,7 +85,7 @@ button.danger {
 .presupuesto #total {
   flex: 1;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
@@ -92,7 +99,8 @@ button.danger {
 #subtotal {
   text-align: center;
   font-weight: bold;
-  margin: 10px 0;
+  margin: 15px 0;
+  font-size: 1.5rem
 }
 
 #lista {
@@ -130,6 +138,6 @@ button.danger {
   }
 
   #total {
-    font-size: 0.95rem;
+    font-size: 1.5rem;
   }
 }

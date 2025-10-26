@@ -51,7 +51,7 @@ function App() {
 
   return (
     <div className="container">
-      <h1>🛒 Registro de Compras</h1>
+      <h2>🛒 Registro de Compras</h2>
 
       <div className="presupuesto">
         <input
